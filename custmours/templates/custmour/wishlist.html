@@ -1,0 +1,73 @@
+{% extends 'custmour\account.html' %}
+{% load static %}
+
+
+{% block pagelink %}
+    Wishlist
+{% endblock pagelink %}
+
+{% block aboutpage %}
+    Your Wishlist
+{% endblock aboutpage %}
+    
+
+{% block mypage %}
+List of items you added to wishlist:
+
+{% endblock mypage %}
+    
+  
+{% block wishlistcount %}
+
+  {{wishlist|length}}
+    
+{% endblock wishlistcount %}
+
+{% block sideitem %}
+<!-- wishlist start-->
+<div id="wishdata">
+{% if wishlist %}
+    {% for item in wishlist %}
+ 
+    <div class="d-sm-flex justify-content-between mt-lg-4 mb-4 pb-3 pb-sm-2 border-bottom">
+        <div class="d-block d-sm-flex align-items-start text-center text-sm-start">
+            <a class="d-block flex-shrink-0 mx-auto me-sm-4" href="#" style="width: 10rem;">
+                <img src="{{ item.product.product_image.url }}" alt="Product">
+            </a>
+            <div class="pt-2">
+                <h3 class="product-title fs-base mb-2">
+                    <a href="#">{{ item.product.name }}</a>
+                </h3>
+                <div class="fs-sm">
+                    <span class="text-muted me-2">Brand:</span>
+                    Tommy Hilfiger
+                </div>
+                <div class="fs-sm">
+                    <a href="{% url 'productview' item.product.category.slug  item.product.slug %}" class="">View item</a>
+                </div>
+                <div class="fs-lg text-accent pt-2" id="wishitem">
+                    {{ item.product.selling_price | stringformat:'d' }}
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="prods_id" value="{{item.product_id}}">
+           {% csrf_token %}
+     
+        <div class="pt-2 ps-sm-3 mx-auto mx-sm-0 text-center">
+            <button class="btn btn-outline-danger btn-sm" id="deletewishlistitem" type="button">
+                <i class="fa-solid fa-trash-can"></i>
+                Remove
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    no item in wish list
+{% endif %}
+</div>
+<!--wishlist end-->
+{% endblock sideitem %}
+
+{% block underscripts %}
+<script src="{% static 'js\custom.js' %}"></script>
+{% endblock underscripts %}

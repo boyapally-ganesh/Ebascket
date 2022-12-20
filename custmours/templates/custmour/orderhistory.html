@@ -1,0 +1,46 @@
+{% extends 'custmour\account.html' %}
+
+
+
+{% block pagelink %}
+    Orders
+{% endblock pagelink %}
+
+{% block aboutpage %}
+    Your Orders
+{% endblock aboutpage %}
+    
+    
+
+{% block orderscount %}
+{{orders|length}}
+{% endblock orderscount %}
+  
+{% block sideitem %}
+    
+<div class="table-responsive fs-md mb-4">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Date Purchased</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in orders %}
+        <tr>
+          <td class="py-3"><a class="nav-link-style fw-medium fs-sm" href="#" data-bs-toggle="modal">{{item.tracking_no}}</a></td>
+          <td class="py-3">{{ item.created_at }}</td>
+          <td class="py-3"><span class="badge bg-info m-0">{{item.status}}</span></td>
+          <td class="py-3">{{item.total_price}}</td>
+        </tr>
+        {% endfor %}
+       
+       
+      </tbody>
+    </table>
+  </div>
+{% endblock sideitem %}
+    

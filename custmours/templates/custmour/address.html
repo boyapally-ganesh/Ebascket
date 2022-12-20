@@ -1,0 +1,15 @@
+{% extends 'custmour/account.html' %}
+
+{% block mypage %}
+    Your Address
+{% endblock mypage %}
+    
+{% block sideitem %}
+    <h4 class="h4 text-center">Address</h4>
+    <hr>
+    {% for item in address %}
+        <div class="text-black text-capitalize h5 mt-2">{{item.address}}</div>
+    {% endfor %}
+        
+{% endblock sideitem %}
+    

@@ -1,0 +1,278 @@
+{% extends 'products/main.html' %}
+
+{% block content %}
+    <!--checkout start-->
+      <!-- Page Title-->
+      <div class="page-title-overlap bg-secondary pt-4">
+        <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+          <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                <li class="breadcrumb-item"><a class="text-nowrap text-body" href="{% url 'home' %}"><i class="ci-home"></i>Home</a></li>
+                <li class="breadcrumb-item text-nowrap text-body"><a href="{% url 'cart' %}" class="text-body">Cart</a>
+                </li>
+                <li class="breadcrumb-item text-nowrap active text-body" aria-current="page">Checkout</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+            <h1 class="h3 text-light mb-0 text-body">Checkout</h1>
+          </div>
+        </div>
+      </div>
+      <div class="container mb-5 pb-3">
+        <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+          <div class="row">
+            <!-- Content-->
+            <section class="col-lg-8 pt-2 pt-lg-4 pb-4 mb-3">
+              <div class="pt-2 px-4 pe-lg-0 ps-xl-5">
+                <!-- Title-->
+                <h2 class="h6 border-bottom pb-3 mb-3">Billing details</h2>
+                <!-- Billing detail-->
+                <form action="{% url 'placeorder' %}" method="post" novalidate>
+                      {% csrf_token %}
+                  <div class="row pb-4 gx-4 gy-3">
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-fn">First name <span class='text-danger'>*</span></label>
+                      <input class="form-control" type="text" value="{{ request.user.first_name }}" id="mc-fn" name="fname" placeholder="First name" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-ln">Last name <span class='text-danger'>*</span></label>
+                      <input class="form-control" type="text" value="{{ request.user.last_name }}" id="mc-ln" name="lname" placeholder="last name" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-email">Email address <span class='text-danger'>*</span></label>
+                      <input class="form-control" type="email" value="{{ request.user.email }}" id="mc-email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-company">Phone number</label>
+                      <input class="form-control" type="text" value="{{ userprofile.phone }}" id="mc-company" name="phone" placeholder="phone number" required>
+                    </div>
+                    <div class="col-sm-12">
+                      <label class="form-label" for="mc-company">Adress</label>
+                      <textarea type="text" value="{{ userprofile.address }}" required placeholder="Address" name="address" class="form-control" rows="3">{{ userprofile.address }}</textarea>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-company">City</label>
+                      <input type="text" value="{{ userprofile.city }}" required placeholder="City" name="city" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-company">State</label>
+                      <input type="text" value="{{ userprofile.state }}" required placeholder="state" name="state" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-company">Country</label>
+                      <input type="text" value="{{ userprofile.country }}" required placeholder="Country" name="country" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label" for="mc-company">Pincode</label>
+                      <input type="number" value="{{ userprofile.pincode }}" required placeholder="pin code" name="pincode" class="form-control">
+                    </div>
+                    <div class="col-sm-12">
+                      
+                      <input type="hidden" value="COD" name="payment_mode">
+                      <button  type="submit" class="btn btn-primary w-100 mb-2" >COD | place order</button>
+                      <div id="paypal-button-container" class="mt-4"></div>
+                    </div>
+                    
+                  </div>
+                </form>
+                <!-- Order preview on mobile (screens small than 991px)-->
+                <div class="widget mb-3 d-lg-none">
+                  <h2 class="widget-title">Order summary</h2>
+                  {% if cartitems %}
+                  {% for item in cartitems %}
+                  <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2"><img class="rounded-1" src="{{ item.product.product_image.url }}" width="64" alt="Product"></a>
+                    <div class="ps-1">
+                      <h6 class="widget-product-title">{{ item.product.name }}</h6>
+                      <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">{{ item.product.selling_price | stringformat:'d' }}</span><span class="fs-xs text-muted">{{ item.product_qty }}</span></div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                 
+                  <ul class="list-unstyled fs-sm py-3">
+                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">{{ total_price | stringformat:'d'}}</span></li>
+                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">00</span></li>
+                    <li class="d-flex justify-content-between align-items-center fs-base"><span class="me-2">Total:</span><span class="text-end">{{ total_price | stringformat:'d'}}</span></li>
+                  </ul>
+                </div>
+                {% else %}
+                Your cart is Empty
+                {% endif %}
+                <!-- Payment methods accordion-->
+               
+                <!-- <div class="accordion mb-2" id="payment-method" role="tablist">
+                  <div class="accordion-item">
+                    <h3 class="accordion-header"><a class="accordion-button" href="#card" data-bs-toggle="collapse"><i class="ci-card fs-lg me-2 mt-n1 align-middle"></i>Pay with Credit Card</a></h3>
+                    <div class="accordion-collapse collapse show" id="card" data-bs-parent="#payment-method" role="tabpanel">
+                      <div class="accordion-body">
+                        <p class="fs-sm">We accept following credit cards:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="img/cards.png" style="width: 187px;" alt="Cerdit Cards"></p>
+                        <div class="credit-card-wrapper"></div>
+                        <form class="credit-card-form row g-3">
+                          <div class="col-sm-6">
+                            <input class="form-control" type="text" name="number" placeholder="Card Number" required>
+                          </div>
+                          <div class="col-sm-6">
+                            <input class="form-control" type="text" name="name" placeholder="Full Name" required>
+                          </div>
+                          <div class="col-sm-3">
+                            <input class="form-control" type="text" name="expiry" placeholder="MM/YY" required>
+                          </div>
+                          <div class="col-sm-3">
+                            <input class="form-control" type="text" name="cvc" placeholder="CVC" required>
+                          </div>
+                          <div class="col-sm-6">
+                            <button class="btn btn-primary d-block w-100" type="submit">Place order</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h3 class="accordion-header"><a class="accordion-button collapsed" href="#paypal" data-bs-toggle="collapse"><i class="ci-paypal me-2 align-middle"></i>Pay with PayPal</a></h3>
+                    <div class="accordion-collapse collapse" id="paypal" data-bs-parent="#payment-method" role="tabpanel">
+                      <div class="accordion-body fs-sm">
+                        <p><span class='fw-medium'>PayPal</span> - the safer, easier way to pay</p>
+                        <button class="btn btn-primary" type="button">Checkout with PayPal</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h3 class="accordion-header"><a class="accordion-button collapsed" href="#points" data-bs-toggle="collapse"><i class="ci-money-bag me-2"></i>Pay with my account balance</a></h3>
+                    <div class="accordion-collapse collapse" id="points" data-bs-parent="#payment-method" role="tabpanel">
+                      <div class="accordion-body">
+                        <p>You currently have<span class="fw-medium">&nbsp;$1,375.<small>00</small></span>&nbsp;on your account balance.</p>
+                        <button class="btn btn-primary" type="submit">Pay with account balance</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </section>
+            <!-- Sidebar-->
+            <!-- Order preview on desktop (screens larger than 991px)-->
+            <aside class="col-lg-4 d-none d-lg-block ps-xl-5">
+              <hr class="d-lg-none">
+              <div class="p-4 h-100 ms-auto border-start">
+                <div class="widget px-lg-2 py-2 mb-3">
+                  <h2 class="widget-title text-center">Order summary</h2>
+                  {% if cartitems %}
+                  {% for item in cartitems %}
+                  <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0 me-2"><img class="rounded-1" src="{{ item.product.product_image.url }}" width="64" alt="Product"></a>
+                    <div class="ps-1">
+                      <h6 class="widget-product-title">{{ item.product.name }}</h6>
+                      <div class="widget-product-meta"><span class="text-accent border-end pe-2 me-2">{{ item.product.selling_price | stringformat:'d' }}</span><span class="fs-xs text-muted">X {{ item.product_qty }}</span></div>
+                    </div>
+                  </div>
+                  
+                  {% endfor %}
+                  <ul class="list-unstyled fs-sm pt-3 pb-2 border-bottom">
+                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">{{ total_price | stringformat:'d'}}</span></li>
+                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">00</span></li>
+                  </ul>
+                  <h3 class="fw-normal text-center my-4">{{ total_price | stringformat:'d'}}</h3>
+                  {% else %}
+                  Your Cart is Empty
+                 {% endif %}
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--checkout end-->
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+<script src="https://www.paypal.com/sdk/js?client-id=AczaT4YWKsHE-kG1PBe0h1yXwfQMObz5EWCQdjBCIOj-cF39z7D4Hc_oETf5ziEGrLMkIYTh0EK_zD4F&currency=USD"></script>
+<script>
+    paypal.Buttons({
+      onclick : function(data, action){
+              //  validation 
+              var fname = $("[name='fname']").val();
+              var lname = $("[name='lname']").val();
+              var email = $("[name='email']").val();
+              var phone = $("[name='phone']").val();
+              var address = $("[name='address']").val();
+              var city = $("[name='city']").val();
+              var state = $("[name='state']").val();
+              var country = $("[name='country']").val();
+              var pincode = $("[name='pincode']").val();
+
+              if(fname == "" || lname == "" || email == "" || phone == "" || address == "" || city == "" || state == "" || country == "" || pincode == "")
+              {
+                  
+                  swal("Alret!", "all fields are required!", "error");
+                  return false;
+              }
+              else{
+                return true;
+              }
+      },
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '0.01' // Can also reference a variable or function
+            }
+          }]
+        });
+      },
+      // Finalize the transaction after payer approval
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(function(orderData) {
+          // Successful capture! For dev/demo purposes:
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          alert(orderData.id)
+          // const transaction = orderData.purchase_units[0].payments.captures[0];
+          // alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+          // When ready to go live, remove the alert and show a success message within this page. For example:
+          // const element = document.getElementById('paypal-button-container');
+          // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+          // Or go to another URL:  actions.redirect('thank_you.html');
+          var fname = $("[name='fname']").val();
+          var lname = $("[name='lname']").val();
+          var email = $("[name='email']").val();
+          var phone = $("[name='phone']").val();
+          var address = $("[name='address']").val();
+          var city = $("[name='city']").val();
+          var state = $("[name='state']").val();
+          var country = $("[name='country']").val();
+          var pincode = $("[name='pincode']").val();
+          data = {
+            "fname":fname,
+            "lname":lname,
+            "email":email,
+            "phone":phone,
+            "address":address,
+            "city":city,
+            "state":state,
+            "country":country,
+            "pincode":pincode,
+            "payment_mode":"paid by paypal",
+            "payment_id":orderData.id,
+            csrfmiddlewaretoken: token
+
+        
+          }
+          $.ajax({
+            method: "POST",
+            url: "/place-order",
+            data: data,
+            success:function (response){
+              swal("congratulation!", response.status, "succes").then((value)=>{
+                window.location.href = "/my-orders"
+              });
+            }
+          })
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+{% endblock scripts %}
+  
+    

@@ -1,0 +1,67 @@
+{% extends 'products\main.html' %}
+
+{% block content %}
+<div class="container mt-3 mb-3">
+    <div class="row justify-content-center ">
+        <div class="col-md-6 pt-4 mt-3 mt-md-0">
+            <h2 class="h4 mb-3">No account? Sign up</h2>
+           
+            <form class="needs-validation" novalidate method="post">
+                {% csrf_token %}
+                <div class="row gx-4 gy-3">
+                    <div class="col-sm-12">
+                        <label class="form-label" for="reg-fn">User Name</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            required
+                            id="reg-fn"
+                            name="username"
+                        >
+                        <div class="invalid-feedback">{{form.username.errors}}!</div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label" for="reg-email">E-mail Address</label>
+                        <input
+                            class="form-control"
+                            type="email"
+                            required
+                            id="reg-email"
+                            name="email"
+                        >
+                        <div class="invalid-feedback">{{form.email.errors}}!</div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label" for="reg-phone">Password</label>
+                        <input
+                            class="form-control"
+                            type="password"
+                            required
+                            id="reg-phone"
+                            name="password1"
+                        >
+                        <div class="invalid-feedback">{{ form.password1.errors }}</div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label" for="reg-password-confirm">Confirm Password</label>
+                        <input
+                            class="form-control"
+                            type="password"
+                            required
+                            id="reg-password-confirm"
+                            name="password2"
+                        >
+                        <div class="invalid-feedback">{{ form.password2.errors }}</div>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button class="btn btn-primary" type="submit" style="width: 100%;">
+                            <i class="fa-regular fa-user me-2"></i>Sign Up
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+C:\django\myproject - Copy\Ebascket\custmours\templates\custmour\signup..html

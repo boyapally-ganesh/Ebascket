@@ -1,0 +1,61 @@
+{% extends 'products\main.html' %}
+
+{% block content %}
+<!-- first-->
+<div class="bg-secondary pt-4 mb-5 pb-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+      <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+            <li class="breadcrumb-item"><a class="text-nowrap text-dark" href="{% url 'home' %}" ><i class="ci-home"></i>Home</a></li>
+            <li class="breadcrumb-item text-nowrap text-dark"><a href="{% url 'collections' %}" class="text-dark">collections</a>
+            </li>
+            <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">{{category_name.name}}</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+        <h1 class="h3 text-light mb-0 text-dark">{{category_name.name}}</h1>
+      </div>
+    </div>
+  </div>
+
+<!--first end-->
+<!--collection view-->
+     <!-- Product-->
+     <div class="container">
+
+       <div class="container mt-3 mb-5">
+  
+           <div class="row mx-n2 ">
+              <!-- Product-->
+              
+              {% for item in products %}
+                  
+              <div class="col-md-4 col-lg-4 col-sm-6 px-2 mb-4">
+                <div class="card product-card">
+                  <a class="nav-link-style fs-ms" href="{% url 'productview' item.category.slug item.slug %}" >
+                 <img src="{{item.product_image.url}}" alt="Product"></a>
+                  <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">Sneakers &amp; Keds</a>
+                    <h3 class="product-title fs-sm">{{ item.name }}</a></h3>
+                    <div class="d-flex justify-content-between">
+                      <div class="product-price"><span class="text-accent">{{ item.selling_price | stringformat:'d'}}.<small>00</small></span></div>
+                      <div class="star-rating"> <i class="fa-solid fa-star text-primary"></i> <i class="fa-solid fa-star text-primary"></i> <i class="fa-solid fa-star text-primary"></i> <i class="fa-solid fa-star text-primary"></i> <i class="fa-solid fa-star text-primary"></i>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </a>
+                </div>
+                <hr class="d-sm-none">
+                <div class="" style="text-align: center;"></div>
+              </div>
+              {% endfor %}
+                  
+           </div>
+       </div>
+     </div>
+<!--collention view end-->
+    
+{% endblock content %}
+    

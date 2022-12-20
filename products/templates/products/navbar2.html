@@ -1,0 +1,199 @@
+<header class="shadow-sm">
+    <!-- Topbar-->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+    <div class="navbar-sticky bg-light">
+        <div class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand d-none d-sm-block me-3 flex-shrink-0" href="{% url 'home' %}">
+                    <h4 class="h2">Ebasket</h4>
+                </a>
+                <a class="navbar-brand d-sm-none me-2" href="{% url 'home' %}">
+                    <h4 class="h3">Ebasket</h4>
+                </a>
+                <!-- Search-->
+                <form
+                    action="{% url 'searchproductsitem' %}"
+                    role="search"
+                    method="post"
+                    
+                >
+                    {% csrf_token %}
+                    <div class="input-group d-none d-lg-flex flex-nowrap mx-4">
+                        <i class="fa-solid fa-magnifying-glass position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                        <input
+                            class="form-control rounded-start w-100"
+                            type="text"
+                            placeholder="Search for products"
+                            name="searchitem"
+                            required
+                            id="searchproduct"
+                        >
+                        <button class="form-control flex-shrink-0" style="width: 10.5rem;" type="submit">
+                            search
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Toolbar-->
+            <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-tool navbar-stuck-toggler" href="#">
+                    <span class="navbar-tool-tooltip">Toggle menu</span>
+                    <div class="navbar-tool-icon-box">
+                        <i class="fa-solid fa-bars me-2"></i>
+                    </div>
+                </a>
+                <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="{% url 'account' %}" data-bs-toggle="modal">
+                    <div class="navbar-tool-icon-box">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="navbar-tool-text ms-n3">
+                        <small>
+                            {% if  user.is_authenticated %}
+                                 Hello
+                                 {% else %}
+
+                                  Sign in
+                           {% endif %}
+                        </small>
+                        <a href="{% url 'account' %}">My Account</a>
+                    </div>
+                </a>
+                <div class="navbar-tool dropdown ms-3">
+                    <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="{% url 'cart' %}">
+                        <span class="navbar-tool-label">4</span>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                    <a class="navbar-tool-text" href="{% url 'cart' %}">
+                        <small>My Cart</small>
+                        $1,247.00
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <!-- Search-->
+                <div class="input-group d-lg-none my-3">
+                    <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                    <input class="form-control rounded-start" type="text" placeholder="Search for products">
+                </div>
+                <!-- Departments menu-->
+                <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle ps-lg-0"
+                            href="#"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside"
+                        >
+                            <i class="fa-solid fa-bars me-2"></i>
+                            Departments
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for item in category %}
+                            <li class="dropdown mega-dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="{% url 'collectionview' item.slug %}">
+                                    {{item.name}}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Primary menu-->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Gadgets</a>
+                        <ul class="dropdown-menu">
+                            {% for item in productgadgets %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'productview' item.category.slug item.slug %}">{{item.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside"
+                        >Mobiles</a>
+                        <ul class="dropdown-menu">
+                            {% for item in productname %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'productview' item.category.slug item.slug %}">{{item.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside"
+                        >Clothes</a>
+                        <ul class="dropdown-menu">
+                            {% for item in productclothes %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'productview' item.category.slug item.slug %}">{{item.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside"
+                        >Shoes</a>
+                        <ul class="dropdown-menu">
+                            {% for item in productshoes %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'productview' item.category.slug item.slug %}">{{item.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{% url 'collections' %}" >collections</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
+<script>
+    var availableTags = [];
+    $.ajax({
+        method: "GET",
+        url : "/product-list",
+        success: function (response){
+          console.log(response)
+          startAutocomplete(response)
+            
+        }
+    });
+    function startAutocomplete(availableTags){
+
+      $( "#searchproduct" ).autocomplete({
+        source: availableTags
+      });
+    }
+</script>

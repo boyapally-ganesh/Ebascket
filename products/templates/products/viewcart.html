@@ -1,0 +1,131 @@
+{% extends 'products\main.html' %}
+{% load static %}
+{% block content %}
+<!--page title-->
+<div class="page-title-overlap bg-dark pt-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                    <li class="breadcrumb-item">
+                        <a class="text-nowrap" href="{% url 'home' %}">
+                          
+                            Home
+                        </a>
+                    </li>
+                    <li class="text-nowrap">
+                        <i class="fa-solid fa-chevron-right ms-2 text-white"></i>
+                        <a href="{% url 'collections' %}">Collections</a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page"><i class="fa-solid fa-chevron-right ms-2"></i>Cart</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+            <h1 class="h3 text-light mb-0">Your cart</h1>
+        </div>
+    </div>
+</div>
+</div>
+<!--page title end-->
+<!--main start-->
+<div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+        <!-- List of items-->
+        <div class="col-lg-12" id="cartdata">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
+                <h2 class="h6 text-light mb-0">Products</h2>
+                <a class="btn btn-outline-primary btn-sm ps-2" href="{% url 'home' %}">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    Continue shopping
+                </a>
+            </div>
+            <!-- Item-->
+            
+            {% if carts %}
+              {% for item in carts %}
+            <div class="d-sm-flex justify-content-between align-items-center my-2 pb-3 border-bottom" id="product_data">
+                <div class="d-block d-sm-flex align-items-center text-center text-sm-start">
+                    <a class="d-inline-block flex-shrink-0 mx-auto me-sm-4" href="#">
+                        <img src="{{ item.product.product_image.url }}" width="160" alt="Product">
+                    </a>
+                    <div class="pt-2">
+                        <h3 class="product-title fs-base mb-2">
+                            <a href="shop-single-v1.html">{{ item.product.name }}</a>
+                        </h3>
+                        <div class="fs-sm">
+                            <span class="text-muted me-2">Size:</span>
+                            8.5
+                        </div>
+                        <div class="fs-sm">
+                            <span class="text-muted me-2">Color:</span>
+                            White &amp; Blue
+                        </div>
+                        <div class="fs-lg text-accent pt-2" >
+                            Rs {{ item.product.selling_price | stringformat:'d' }}
+                           
+                        </div>
+                        {% csrf_token %}
+                        <input type="hidden" class="prod_id" value="{{ item.product_id }}" id="prod_id">
+                    </div>
+                </div>
+                <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start" style="max-width: 11rem;" id="product_data">
+                    <!-- <label class="form-label" for="quantity1">Quantity</label> -->
+                    {% if item.product.quantity >= item.product_qty %}
+                    <!-- <label for="quantity">quantity</label> -->
+                    <div class="input-group" >
+                        <button class="btn btn-primary changequantity decrement-btn" id="decrement-btn" type="button">-</button>
+                        <input
+                            type="text"
+                            class="form-control qty-input"
+                            name="quantity"
+                            value="{{ item.product_qty }}"
+                            id="qty-input"
+                        >
+                        <button class="btn btn-primary changequantity increment-btn" id="increment-btn" type="button">+</button>
+                    </div>
+                    {% else %}
+                    <h1>out of stock</h1>
+                    {% endif %}
+                    <button class="btn btn-link px-0 text-danger delete-cart-item" id="delete-cart-item" type="button">
+                        <i class="fa-regular fa-trash-can"></i>
+                        Remove
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+            <button class="btn btn-outline-accent d-block w-100 mt-4" type="button">
+                <i class="fa-solid fa-pen me-2"></i>Update cart
+            </button>
+            <button class="btn btn-outline-primary d-block w-100 mt-4" type="button">
+                <i class="fa-solid fa-wallet me-2"></i><a href="{% url 'checkout' %}">Check Out</a>  
+            </button>
+            {% else %}
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <!-- Image -->
+                            <img src="{% static 'images/empty-cart.svg' %}" class="h-200 h-md-300 mb-3" alt="">
+                            <!-- Subtitle -->
+                            <h2>Your cart is currently empty</h2>
+                            <!-- info -->
+                            <p class="mb-0">I think the below button is important. Hit this button and you will find a lot of interesting products on our "Shop" page</p>
+                            <!-- Button -->
+                            <a href="{% url 'home' %}" class="btn btn-primary mt-4 mb-0">Back to Shop</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+<!--main end-->
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js\custom.js' %}"></script>
+{% endblock scripts %}
+    

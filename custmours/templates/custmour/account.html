@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <scrip src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="{% static 'css\theme.css' %}">
+        <link rel="stylesheet" href="{% static 'css\alretfy.css' %}">
+    </head>
+    <body>
+        {% include 'products\navbar2.html' %}
+        <!--top account page-->
+        <div class="page-title-overlap bg-dark pt-4">
+            <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+                <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                            <li class="breadcrumb-item">
+                                <a class="text-nowrap" href="{% url 'home' %}">
+                                    <i class="ci-home"></i>
+                                    Home
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item text-nowrap">
+                                <a href="{% url 'account' %}">Account</a>
+                            </li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page">
+                            {% block pagelink %}
+                                Profile
+                            {% endblock pagelink %}
+                                </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+                    <h1 class="h3 text-light mb-0">
+                        {% block aboutpage %}
+                          Your Profile
+                        {% endblock aboutpage %}
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <!--top account page end-->
+        <!--profile page start-->
+        <div class="container pb-5 mb-2 mb-md-4">
+            <div class="row">
+                <!-- Sidebar-->
+                <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5">
+                    <div class="bg-white rounded-3 shadow-lg pt-1 mb-5 mb-lg-0">
+                        <div class="d-md-flex justify-content-between align-items-center text-center text-md-start p-4">
+                            <div class="d-md-flex align-items-center">
+                                
+                                <div class="ps-md-3">
+                                    <h3 class="fs-base mb-0">{{request.user.username}}</h3>
+                                    <span class="text-accent fs-sm">{{request.user.email}}</span>
+                                </div>
+                            </div>
+                            <a
+                                class="btn btn-primary d-lg-none mb-2 mt-3 mt-md-0"
+                                href="#account-menu"
+                                data-bs-toggle="collapse"
+                                aria-expanded="false"
+                            >
+                                <i class="ci-menu me-2"></i>Account menu
+                            </a>
+                        </div>
+                        <div class="d-lg-block collapse" id="account-menu">
+                            <div class="bg-secondary px-4 py-3">
+                                <h3 class="fs-sm mb-0 text-muted">Dashboard</h3>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="border-bottom mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if request.resolver_match.url_name == 'orders' %} active {% endif %}" href="{% url 'orders' %}">
+                                        <i class="fa-solid fa-bag-shopping me-2 opacity-60"></i>Orders
+                                        <span class="fs-sm text-muted ms-auto">
+                                            
+                                            {% block orderscount %}
+                                                
+                                            {% endblock orderscount %}
+                                                
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="border-bottom mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if request.resolver_match.url_name == 'wishlist' %} active {% endif %}" href="{% url 'wishlist' %}">
+                                        <i class="fa-regular fa-heart me-2 opacity-60"></i>Wishlist
+                                        <span class="fs-sm text-muted ms-auto">
+                                            
+                                            {% block wishlistcount %}
+                                                
+                                            {% endblock wishlistcount %}
+                                                
+                                        </span>
+                                    </a>
+                                </li>
+                                <!-- <li class="mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3" href="#">
+                                        <i class="fa-solid fa-clock-rotate-left me-2 opacity-60"></i>order history
+                                        <span class="fs-sm text-muted ms-auto">1</span>
+                                    </a>
+                                </li> -->
+                            </ul>
+                            <div class="bg-secondary px-4 py-3">
+                                <h3 class="fs-sm mb-0 text-muted">Account settings</h3>
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="border-bottom mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if request.resolver_match.url_name == 'account' %} active {% endif %}" href="{% url 'account' %}">
+                                        <i class="fa-regular fa-user me-2 opacity-60"></i>Profile info
+                                    </a>
+                                </li>
+                                <li class="border-bottom mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{% url 'address' %}">
+                                        <i class="fa-solid fa-location-dot me-2 opacity-60"></i>Addresses
+                                    </a>
+                                </li>
+                               
+                                <li class="d-lg-none border-top mb-0">
+                                    <a class="nav-link-style d-flex align-items-center px-4 py-3" href="account-signin.html">
+                                        <i class="ci-sign-out opacity-60 me-3"></i>Sign out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+                <section class="col-lg-8">
+                    <!-- Toolbar-->
+                    <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
+                        <h6 class="fs-base text-light mb-0">
+                            
+                            {% block mypage %}
+                                Your profile
+                            {% endblock mypage %}
+                                
+                        </h6>
+                        <a class="btn btn-primary btn-sm" href="{% url 'logout' %}">
+                            <i class="fa-solid fa-arrow-up-right-from-square me-2"></i>Sign out
+                        </a>
+                    </div>
+                    <!-- Wishlist-->
+                    <!-- Item-->
+                    
+                    {% block sideitem %}
+                    
+                    
+                    
+                    <form>
+                        {% for item in profile %}
+                     
+                        <div class="row gx-4 gy-3">
+                          <div class="col-sm-6">
+                            <label class="form-label" for="account-fn">User Name</label>
+                            <input class="form-control" type="text" id="account-fn" value="{{item.user}}" disabled>
+                            <div class="text-center">{{profile.phone}}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-ln">Phone Number</label>
+                            <input class="form-control" type="text" id="account-ln" value="{{item.phone}}" disabled>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label" for="account-email">Address</label>
+                            <textarea class="form-control" type="text" id="account-email" disabled>{{item.address}}</textarea>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-phone">City</label>
+                            <input class="form-control" type="text" id="account-phone" value="{{item.city}}" disabled>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-pass">state</label>
+                            
+                            <input class="form-control" type="text" id="account-pass" value="{{item.state}}" disabled>
+                               
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-confirm-pass">Pincode</label>
+                           
+                            <input class="form-control" type="text" id="" value="{{item.pincode}}" disabled>
+                               
+                           
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-confirm-pass">Country</label>
+                           
+                            <input class="form-control" type="text" id="" value="{{item.country}}" disabled>
+                               
+                           
+                        </div>
+                                {% endfor %}
+                        <!-- <div class="col-12">
+                            <hr class="mt-2 mb-3">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="subscribe_me" checked>
+                                  <label class="form-check-label" for="subscribe_me">Subscribe me to Newsletter</label>
+                              </div>
+                              <button class="btn btn-primary mt-3 mt-sm-0" type="button">Update profile</button>
+                            </div>
+                          </div> -->
+                        </div>
+                      </form>
+                        
+                    {% endblock sideitem %}
+                        
+                   
+                </section>
+            </div>
+        </div>
+   
+    <!--profile page end-->
+    {% include 'products\footer.html' %}
+    
+    {% block underscripts %}
+
+        
+    {% endblock underscripts %}
+    <script src="{% static 'js\custom.js' %}"></script>
+    <script src=""></script>
+    <script src="{% static 'js\all.js' %}"></script>
+    <script src="{% static 'js\theme.js' %}"></script>
+    <script src="{% static 'js\bootstrap.min.js' %}"></script>
+    <script src="{% static 'js\alertify.min.js' %}"></script>
+    <script src="{% static 'js\popper.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+ {% extends 'products\main.html' %}
+ {% load static %}
+ 
+ <!-- Page Title (Light)-->
+ 
+ 
+ {% block content %}
+    
+ <div class="bg-secondary py-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+      <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
+            <li class="breadcrumb-item"><a class="text-nowrap" href="{% url 'home' %}"><i class="ci-home"></i>Home</a></li>
+            
+            </li>
+            <li class="breadcrumb-item text-nowrap active" aria-current="page">Categories</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+        <h1 class="h3 mb-0">Shop categories</h1>
+      </div>
+    </div>
+  </div>
+  <!--category item start -->
+ 
+
+      <div class="container pb-4 pb-sm-5">
+        <!-- Categories grid-->
+        <div class="row pt-5">
+          <!-- Catogory-->
+         
+          {% for item in category %}
+            
+          <div class="col-md-4 col-sm-6 mb-3">
+            <div class="card border-0"><a class="d-block overflow-hidden rounded-3" href="{% url 'collectionview' item.slug %}"><img class="d-block w-100" src="{{ item.image.url }}" alt="Clothing"></a>
+              <div class="card-body">
+                <h2 class="h5">{{ item.name }}</h2>
+                
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+            
+        </div>
+      </div>
+  
+  <!--category item end-->
+  <!--popular brands-->
+  <h2 class="h3 text-center py-4 mt-md-3">Popular brands</h2>
+  <div class="container">
+
+      <div class="row">
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\01.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\02.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\03.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\04.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\05.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\06.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\07.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\08.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\09.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\10.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\11.png' %}" width="150" alt="Brand"></a></div>
+        <div class="col-md-3 col-sm-4 col-6"><a class="d-block bg-white shadow-sm rounded-3 py-3 py-sm-4 mb-grid-gutter" href="#"><img class="d-block mx-auto" src="{% static 'images\category\brands\12.png' %}" width="150" alt="Brand"></a></div>
+      </div>
+  </div>
+
+  <!--popular brands end-->
+ {% endblock content %}
+    

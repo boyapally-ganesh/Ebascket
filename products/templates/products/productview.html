@@ -1,0 +1,217 @@
+{% extends 'products\main.html' %}
+{% load static %}
+{% block content %}
+<!--start head-->
+<div class="page-title-overlap bg-dark pt-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                    <li class="breadcrumb-item">
+                        <a class="text-nowrap" href="{% url 'home' %}">
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="breadcrumb-item text-nowrap">
+                        <i class="fa-solid fa-greater-than"></i><a href="#">Shop</a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Product Page v.2</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+            <h1 class="h3 text-light mb-2">{{products.name}}</h1>
+            <div>
+                <div class="star-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="d-inline-block fs-sm text-white opacity-70 align-middle mt-1 ms-1">74 Reviews</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--end head-->
+<!--product view start-->
+<div class="container">
+    <div class="container mb-3">
+        <div class="bg-light shadow-lg rounded-3">
+            <!-- Tabs-->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a
+                        class="nav-link py-4 px-sm-4 active"
+                       
+                        data-bs-toggle="tab"
+                        role="tab"
+                    >
+                        General
+                        <span class="d-none d-sm-inline">Info</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link py-4 px-sm-4"
+                    
+                        data-bs-toggle="tab"
+                        role="tab"
+                    >
+                        <span class="d-none d-sm-inline">Tech</span>
+                        Specs
+                    </a>
+                </li>
+            </ul>
+            <div class="px-4 pt-lg-3 pb-3 mb-5">
+                <div class="tab-content px-lg-3 product_data">
+                    <!-- General info tab-->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                        <div class="row">
+                            <!-- Product gallery-->
+                            <div class="col-lg-6 pe-lg-0">
+                                <img src="{{ products.product_image.url}}" alt="">
+                            </div>
+                            <!-- Product details-->
+                            <div class="col-lg-6 pt-4 pt-lg-0">
+                                <div class="product-details ms-auto pb-3">
+                                    <div class="h3 fw-normal text-accent mb-3 me-1">
+                                        {{ products.selling_price }}
+                                    </div>
+                                    <div class="fs-sm mb-4">
+                                        {% if products.tag %}
+                                        <label class="product-viewtag badge bg-success">{{ products.tag }}</label>
+                                        {% endif %}
+                                    </div>
+                                    <div class="position-relative me-n4 mb-3">
+                                        <div class="form-check form-option form-check-inline mb-2">
+                                            {% if products.tranding %}
+                                            <label class="float-end badge bg-danger trending_tag">trending</label>
+                                            {% endif %}
+                                        </div>
+                                        {% if products.quantity > 0 %}
+                                        <div class="product-badge product-available mt-n1">
+                                            <i class="fa-solid fa-check"></i>
+                                            Product available
+                                        </div>
+                                        {% else %}
+                                        <div class="product-badge product-available mt-n1 bg-danger">
+                                            <i class="fa-solid fa-xmark"></i>
+                                            Out of stock
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                  
+                                    <div class="d-flex mb-4">
+                                        <div class="w-100 me-3">
+                                            <button class="btn btn-secondary d-block w-100 addtowishlist" id="addtowishlist" type="button">
+                                                <i class="fa-regular fa-heart"></i>
+                                                <span class="d-none d-sm-inline">Add to</span>
+                                                Wishlist
+                                            </button>
+                                        </div>
+                                        <div class="w-100 " id="product_data">
+                                           
+                                            {% csrf_token %}
+                                            <input type="hidden" value="{{products.id}}" id="prod_id">
+                                            <div class="input-group" id="product_ids">
+                                                <button class="btn btn-primary changequantity decrement-btn" id="decrement-btn">-</button>
+                                                <input
+                                                    type="text"
+                                                    class="form-control qty-input"
+                                                    name="quantity"
+                                                    value="1"
+                                                    id="qty-input"
+                                                >
+                                                <button class="btn btn-primary changequantity increment-btn" id="increment-btn">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    
+                                        {% if products.quantity > 0 %}
+                                        <button class="btn btn-primary btn-shadow d-block w-100 mt-2 mb-2" id="addtocartbtn" type="button" >
+                                            
+                                            Add to Cart
+                                        </button>
+                                        {% endif %}
+                                    
+                                    <!-- Product panels-->
+                                    <div class="accordion mb-4" id="productPanels">
+                                        <div class="accordion-item">
+                                            <h3 class="accordion-header">
+                                                <a
+                                                    class="accordion-button"
+                                                    href=""
+                                                    role="button"
+                                                    data-bs-toggle="collapse"
+                                                    aria-expanded="true"
+                                                    aria-controls="shippingOptions"
+                                                >
+                                                <i class="fa-solid fa-truck-fast me-2"></i>
+                                                    Shipping options
+                                                </a>
+                                            </h3>
+                                            <div class="accordion-collapse collapse show" id="shippingOptions" data-bs-parent="#productPanels">
+                                                <div class="accordion-body fs-sm">
+                                                    <div class="d-flex justify-content-between border-bottom pb-2">
+                                                        <div>
+                                                            <div class="fw-semibold text-dark">Local courier shipping</div>
+                                                            <div class="fs-sm text-muted">2 - 4 days</div>
+                                                        </div>
+                                                        <div>₹300</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between border-bottom py-2">
+                                                        <div>
+                                                            <div class="fw-semibold text-dark">UPS ground shipping</div>
+                                                            <div class="fs-sm text-muted">4 - 6 days</div>
+                                                        </div>
+                                                        <div>₹500</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between pt-2">
+                                                        <div>
+                                                            <div class="fw-semibold text-dark">Local pickup from store</div>
+                                                            <div class="fs-sm text-muted">&mdash;</div>
+                                                        </div>
+                                                        <div>₹0.00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Sharing-->
+                                    <label class="form-label d-inline-block align-middle my-2 me-3">Share:</label>
+                                    <a class="btn-share btn-twitter me-2 my-2" href="#">
+                                        <i class="fa-brands fa-twitter"></i>
+                                        Twitter
+                                    </a>
+                                    <a class="btn-share btn-instagram me-2 my-2" href="#">
+                                        <i class="fa-brands fa-instagram"></i>
+                                        Instagram
+                                    </a>
+                                    <a class="btn-share btn-facebook my-2" href="#">
+                                        <i class="fa-brands fa-facebook-f"></i>
+                                        Facebook
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!--product view end-->
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js\custom.js' %}"></script>
+{% endblock scripts %}
+    

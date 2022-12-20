@@ -1,0 +1,85 @@
+ <!-- Products grid (Trending products)-->
+ {% load static %}
+ <section class="container pt-5">
+    <!-- Heading-->
+    <div class="d-flex flex-wrap justify-content-between align-items-center pt-1 border-bottom pb-4 mb-4">
+      <h2 class="h3 mb-0 pt-3 me-2">Trending products</h2>
+      <div class="pt-3"><a class="btn btn-outline-accent btn-sm" href="{% url 'collections' %}">More products</a></div>
+    </div>
+    <!-- Grid-->
+    <div class="row pt-2 mx-n2">
+      <!-- Product-->
+      
+      <!-- Product-->
+      
+      {% for item in tranding %}
+       
+    
+        
+      <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
+        <div class="card product-card"><span class="badge bg-danger badge-shadow">
+        {% if item.tag %}
+            {{item.tag}}
+        {% endif %}
+          </span>
+          <div class="product-card-actions d-flex align-items-center"><a class="btn-action nav-link-style me-2" href="#"><i class="fa-regular fa-heart"></i>Compare</a>
+            <button class="btn-wishlist btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist" id="addtowishlist"><i class="fa-regular fa-heart"></i></button>
+          </div><a class="card-img-top d-block overflow-hidden" href="{% url 'productview' item.category.slug item.slug %}"><img src="{{ item.product_image.url }}" alt="Product"></a>
+          <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">{{item.category}}</a>
+            <h3 class="product-title fs-sm"><a href="{% url 'productview' item.category.slug item.slug %}"> {{item.name}}</a></h3>
+            <div class="d-flex justify-content-between">
+              <div class="product-price"><span class="text-accent">{{item.selling_price}}</span>
+                <del class="fs-sm text-muted">{{item.original_price}}</del>
+              </div>
+              <div class="star-rating">  <i class="fa-solid fa-star active text-primary"></i> <i class="fa-solid fa-star active text-primary"></i> <i class="fa-solid fa-star active text-primary"></i> <i class="fa-solid fa-star active text-primary"></i> <i class="fa-solid fa-star active text-primary"></i>
+              </div>
+            </div>
+          </div>
+          {% csrf_token %}
+          <input type="hidden" value="{{item.id}}" id="prod_id">
+          <input type="hidden" value="1" name="quantity" id="qty-input">
+          
+          <div class="card-body card-body-hidden">
+            <button class="btn btn-primary btn-sm d-block w-100 mb-2" id="addtocartbtn" type="button"><i class="fa-solid fa-cart-shopping me-2"></i>Add to Cart</button>
+            <div class="text-center"><a class="nav-link-style fs-ms" href="{% url 'productview' item.category.slug item.slug %}" data-bs-toggle="modal"><i class="fa-regular fa-eye me-2"></i>Quick view</a></div>
+          </div>
+        </div>
+        <hr class="d-sm-none">
+      </div>
+      {% endfor %}
+      <!-- Product-->
+     
+      <!-- Product-->
+      
+      <!-- Product-->
+     
+      <!-- Product-->
+      
+      <!-- Product-->
+      
+      <!-- Product-->
+      
+    </div>
+  </section>
+  <!-- Promo banner-->
+  <section class="container mt-4 mb-grid-gutter">
+    <div class="bg-faded-info rounded-3 py-4">
+      <div class="row align-items-center">
+        <div class="col-md-5">
+          <div class="px-4 pe-sm-0 ps-sm-5"><span class="badge bg-danger">Limited Offer</span>
+            <h3 class="mt-4 mb-1 text-body fw-light">All new</h3>
+            <h2 class="mb-1">Last Gen iPad Pro</h2>
+            <p class="h5 text-body fw-light">at discounted price. Hurry up!</p>
+            <div class="countdown py-2 h4" data-countdown="07/01/2023 07:00:00 PM">
+              <div class="countdown-days"><span class="countdown-value"></span><span class="countdown-label text-muted">d</span></div>
+              <div class="countdown-hours"><span class="countdown-value"></span><span class="countdown-label text-muted">h</span></div>
+              <div class="countdown-minutes"><span class="countdown-value"></span><span class="countdown-label text-muted">m</span></div>
+              <div class="countdown-seconds"><span class="countdown-value"></span><span class="countdown-label text-muted">s</span></div>
+            </div><a class="btn btn-accent" href="#">View offers<i class="ci-arrow-right fs-ms ms-1"></i></a>
+          </div>
+        </div>
+        <div class="col-md-7"><img src="{% static 'images\offerbanneriphone.jpg' %}" alt="iPad Pro Offer"></div>
+      </div>
+    </div>
+  </section>
+  <script src="{% static 'js\custom.js' %}"></script>
